@@ -1,7 +1,8 @@
 
 // /js/app.js
-import { guardarData, cargarData } from "./storage.js";
-import * as storage from "./assets/js/storage.js"
+
+import { guardarData, cargarData, setItem, getItem, removeItem } from "./assets/js/storage.js";
+
 
 let data = { fincas: [] };
 let nivel_actual = "fincas";
@@ -11,8 +12,38 @@ let lote_seleccionado = null;
 // Inicialización
 window.onload = async () => {
   data = await cargarData(); // ahora carga desde IndexedDB
+
+  // 🔹 Si vienes desde animal.html con "volver"
+  if (getItem("volver_a_animales") === "true") {
+    const fincaNombre = getItem("finca_actual");
+    const loteNombre = getItem("lote_actual");
+
+    finca_seleccionada = data.fincas.find(f => f.nombre === fincaNombre) || null;
+    if (finca_seleccionada) {
+      lote_seleccionada = finca_seleccionada.lotes.find(l => l.nombre === loteNombre) || null;
+      if (lote_seleccionada) {
+        nivel_actual = "animales"; 
+      }
+    }
+
+    removeItem("volver_a_animales");
+  }
+
   render();
+
+  // 🔹 Mostrar campo de anotaciones solo si se elige "Con anotaciones"
+  document.querySelectorAll("input[name='salud']").forEach(radio => {
+    radio.addEventListener("change", () => {
+      const campo = document.getElementById("campo-anotaciones");
+      if (radio.value === "Con anotaciones" && radio.checked) {
+        campo.classList.remove("d-none");
+      } else {
+        campo.classList.add("d-none");
+      }
+    });
+  });
 };
+;
 
 // Guardar cambios
 function guardar() {
@@ -87,7 +118,7 @@ function render() {
 
         // 👉 Evento para abrir el detalle del animal
         div.addEventListener("click", () => {
-            storage.setItem("animal_seleccionado", JSON.stringify(animal));
+             setItem("animal_seleccionado", JSON.stringify(animal));
             window.location.href = "animal.html"; // tu página de detalle
         });
 
@@ -273,9 +304,9 @@ document.getElementById("btn-buscar").onclick = () => {
             div.innerHTML = `<div class="card-body" style="cursor:pointer;">ID: ${animal.numero_id || ""} | Raza: ${animal.raza || ""}</div>`;
             lista.appendChild(div);
             div.addEventListener("click", () => {
-  storage.setItem("animal_seleccionado", JSON.stringify(animal));
-  storage.setItem("finca_actual", finca_seleccionada.nombre); // 👈 guardamos finca
-  storage.setItem("lote_actual", lote_seleccionado.nombre);   // 👈 guardamos lote
+   setItem("animal_seleccionado", JSON.stringify(animal));
+   setItem("finca_actual", finca_seleccionada.nombre); // 👈 guardamos finca
+   setItem("lote_actual", lote_seleccionado.nombre);   // 👈 guardamos lote
   window.location.href = "animal.html";
 });
 
@@ -305,16 +336,14 @@ document.getElementById("btn-agregar").onclick = () => {
         modal.show();
     }
 };
-function guardar() {
-    storage.setItem("registro_ganado", JSON.stringify(data));
-}
+
 
 
 window.onload = () => {
   // 🔹 Si vienes desde animal.html con "volver"
-if (storage.getItem("volver_a_animales") === "true") {
-  const fincaNombre = storage.getItem("finca_actual");
-  const loteNombre = storage.getItem("lote_actual");
+if ( getItem("volver_a_animales") === "true") {
+  const fincaNombre =  getItem("finca_actual");
+  const loteNombre =  getItem("lote_actual");
 
     finca_seleccionada = data.fincas.find(f => f.nombre === fincaNombre) || null;
     if (finca_seleccionada) {
@@ -324,9 +353,9 @@ if (storage.getItem("volver_a_animales") === "true") {
       }
     }
 
-    storage.removeItem("volver_a_animales");
+     removeItem("volver_a_animales");
   }
-
+  
   render();
 
   // 🔹 Mostrar campo de anotaciones solo si se elige "Con anotaciones"

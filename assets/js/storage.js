@@ -34,7 +34,7 @@ export async function guardarData(data) {
     const tx = db.transaction(STORE_NAME, "readwrite");
     const store = tx.objectStore(STORE_NAME);
 
-    // Limpiar primero
+    // Limpiar primero y luego guardar
     store.clear().onsuccess = () => {
       store.add({ id: 1, ...data }); // Guardamos bajo la clave 1
     };
@@ -55,4 +55,23 @@ export async function cargarData() {
     request.onsuccess = () => resolve(request.result || { fincas: [] });
     request.onerror = () => reject("Error al cargar datos");
   });
+}
+
+// ====================================================
+// 🔹 Funciones de almacenamiento temporal (localStorage)
+// ====================================================
+
+// Guardar valor
+export function setItem(key, value) {
+  localStorage.setItem(key, value);
+}
+
+// Obtener valor
+export function getItem(key) {
+  return localStorage.getItem(key);
+}
+
+// Eliminar valor
+export function removeItem(key) {
+  localStorage.removeItem(key);
 }
