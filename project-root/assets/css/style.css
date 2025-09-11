@@ -1,0 +1,264 @@
+.content 
+    {
+        margin: 0px;
+        padding: 20px;
+        border: 2px solid #666160;
+        background-color: #666160;
+        display: flex;
+        align-items: center;
+    }
+    h2
+    {
+        color: white;
+        margin-top: -8px;
+        font-family: 'Montserrat', ;
+        font-weight: 600;
+        font-size: 24px;
+        margin-left: 20px;
+        text-align: center;
+        position: center;
+    }
+     h3
+    {
+        color: white;
+        margin-top: -8px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 24px;
+        margin-left: 20px;
+        text-align: center;
+        position: center;
+    }
+   
+    span {
+        color: white !important;
+        background-color: #198754 !important;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 18px;
+        padding: 8px 16px;
+        border-radius: 6px;
+        margin-left: 8px;
+    }
+    input[type="text"] {
+        margin-right: 0 !important;
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        margin-left: 20px !important;
+    }
+
+    .search-bar {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        width: 100%;
+        margin-right: 40px;
+        height: 60px;
+        margin-bottom: 10px;
+        gap: 0; /* Elimina el espacio entre input y botón */
+    }
+
+    .input-group {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 100%;
+        margin-right: 40px;
+        height: 60px;
+    }
+
+    .btn-success {
+        width: 48px;
+        height: 48px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        font-size: 20px;
+    }
+
+    /* Centra el botón de agregar en la parte inferior */
+#btn-agregar {
+    position: fixed;
+    left: 50%;
+    bottom: 32px;
+    transform: translateX(-50%);
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+    #btn-agregar {
+        bottom: 16px;
+        width: 48px;
+        height: 48px;
+    }
+}
+
+/* Evita que el responsive cambie la dirección de la barra de búsqueda */
+@media (max-width: 980px) {
+    .search-bar {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        height: 60px;
+        margin-right: 0;
+    }
+}
+
+/* Responsive ajustes */
+@media (max-width: 768px) {
+    .content {
+        padding: 10px;
+        border-width: 1px;
+    }
+    h2, h3 {
+        font-size: 18px;
+        margin-left: 0;
+    }
+    .search-bar {
+        flex-direction: column;
+        align-items: stretch;
+        height: auto;
+        margin-right: 0;
+    }
+    .btn-success {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    #lista {
+        margin-top: 10px !important;
+    }
+}
+
+/* Todas las reglas responsive solo se aplican hasta 980px */
+@media (max-width: 980px) {
+    .content {
+        padding: 10px;
+        border-width: 1px;
+        max-width: 100vw;
+        margin: 0;
+        color: white    !important;
+    }
+    h2, h3 {
+        font-size: 18px;
+        margin-left: 0;
+        color: white    !important;
+    }
+    .search-bar {
+        flex-direction: column;
+        align-items: stretch;
+        height: auto;
+        margin-right: 0;
+    }
+    .btn-success {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    #lista {
+        margin-top: 10px !important;
+    }
+    #btn-agregar {
+        bottom: 16px;
+        width: 48px;
+        height: 48px;
+    }
+    #titulo {
+        font-size: 14px !important;
+        padding: 2px !important;
+        margin-left: 0 !important;
+        color: white    !important;
+    }
+}
+
+/* Oculta el título en pantallas menores a 400px solo si la pantalla es menor a 980px */
+@media (max-width: 980px) and (max-width: 400px) {
+    #titulo {
+        font-size: 0 !important;
+        min-width: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    #titulo::after {
+        content: "";
+    }
+}
+
+@media (min-width: 1200px) {
+    .content {
+        max-width: 900px;
+        margin: 30px auto;
+    }
+}
+
+.d-flex btn-success {
+    margin-left: 50% !important;
+    
+}
+
+/* Nueva regla para el contenedor de la barra de búsqueda y el botón de volver */
+.search-bar-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 0;
+}
+
+/* Barra de búsqueda horizontal siempre */
+.search-bar {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex: 1 1 auto;
+    height: 60px;
+    margin-bottom: 10px;
+    gap: 0;
+}
+
+/* Input ocupa todo el espacio disponible */
+#buscar {
+    flex: 1 1 auto;
+    min-width: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-right: 0;
+}
+
+/* Botón de buscar pegado al input */
+#btn-buscar {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: 0;
+    padding-left: 12px;
+    padding-right: 12px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+/* Oculta el título en pantallas pequeñas */
+@media (max-width: 500px) {
+    #titulo {
+        display: none !important;
+    }
+    .search-bar {
+        height: 48px;
+    }
+}
+.lis .d-flex span {
+  background-color: #666160 !important;
+
+  
+}
+.flex-grow-1  {
+    color: white !important;
+}

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle Animal - Gana Bien</title>
+  <link rel="stylesheet" href="assets/css/card.css">
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#198754">
+
+</head>
+<body>
+  <!-- Barra superior -->
+  <div class="container-fluid content">
+    <div class="d-flex flex-row align-items-center w-100 mb-3 search-bar-row">
+      <button class="btn btn-success me-2" id="btn-atras">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <h2 class="flex-grow-1 text-center">Detalle</h2>
+<h2 class="flex-grow-1 text-center" id="animal-id"></h2>
+
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container mt-4">
+    <div class="row align-items-start">
+      <!-- Foto -->
+      <div class="col-md-4 text-center">
+        <img id="animal-foto" src="https://via.placeholder.com/250" alt="Foto animal" class="img-fluid rounded border">
+      </div>
+      <!-- Datos -->
+      <div class="col-md-8">
+        <ul class="list-group">
+          <li class="list-group-item"><strong>Sexo:</strong> <span id="dato-sexo"></span></li>
+          <li class="list-group-item"><strong>Peso:</strong> <span id="dato-peso"></span> kg</li>
+          <li class="list-group-item"><strong>Número de partos:</strong> <span id="dato-partos"></span></li>
+          <li class="list-group-item"><strong>Edad:</strong> <span id="dato-edad"></span> meses</li>
+          <li class="list-group-item"><strong>Preñes:</strong> <span id="dato-prenes"></span></li>
+          <li class="list-group-item"><strong>Tiempo de preñes:</strong> <span id="dato-tprenes"></span></li>
+          <li class="list-group-item"><strong>Estado de salud:</strong> <span id="dato-salud"></span></li>
+          <li class="list-group-item d-none" id="item-anotaciones"><strong>Notas:</strong> <span id="dato-anotaciones"></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Gráfica -->
+    <div class="estadisticas mt-4">
+      <h3 class="text-center">Evolución del peso (últimos 6 meses)</h3>
+      <canvas id="graficaPeso"></canvas>
+    </div>
+
+    <!-- Botones -->
+    <div class="botones mt-4 d-flex flex-wrap justify-content-center gap-2">
+      <button class="btn btn-danger" id="btn-eliminar"><i class="fa-solid fa-trash"></i> Eliminar</button>
+      <button class="btn btn-info" id="btn-historial"><i class="fa-solid fa-clipboard"></i> Historial</button>
+      <button class="btn btn-warning" id="btn-cambiar"><i class="fa-solid fa-right-left"></i> Cambiar de lote</button>
+      <button class="btn btn-secondary" id="btn-editar"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+      <button class="btn btn-success" id="btn-actualizar"><i class="fa-solid fa-pen"></i> Actualizar</button>
+    </div>
+  </div> <!-- Modal Cambiar Finca/Lote -->
+<div class="modal fade" id="modalMover" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Mover Animal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formMover">
+          <div class="mb-3">
+            <label class="form-label">Selecciona finca</label>
+            <select id="selectFinca" class="form-select"></select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Selecciona lote</label>
+            <select id="selectLote" class="form-select"></select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-success" id="btn-confirmar-mover">Mover</button>
+      </div>
+    </div>
+  </div>
+</div> 
+ <!-- Modal para agregar animal -->
+<div class="modal fade" id="modalAnimal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Agregar Animal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formAnimal">
+          <div class="mb-3">
+            <label class="form-label">ID o N° animal</label>
+            <input type="text" id="id" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Sexo</label><br>
+            <input type="radio" name="sexo" value="Macho"> Macho 
+            <input type="radio" name="sexo" value="Hembra"> Hembra
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Peso (kg)</label>
+            <input type="number" id="peso" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Preñes</label><br>
+            <input type="radio" name="prenes" value="Si"> Si 
+            <input type="radio" name="prenes" value="No"> No
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tiempo de preñes</label>
+            <input type="text" id="tprenes" class="form-control">
+          </div>
+          <div class="mb-3">
+           <label class="form-label">Número de partos</label>
+           <input type="number" id="partos" class="form-control" min="0">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Edad (meses)</label>
+            <input type="number" id="edad" class="form-control">
+          </div> 
+          <div class="mb-3">
+  <h3>Estado de salud</h3>
+  <input type="radio" name="salud" value="Bien"> Bien
+  <input type="radio" name="salud" value="Con anotaciones"> Con anotaciones
+</div>
+
+<div class="mb-3 d-none" id="campo-anotaciones">
+  <label class="form-label">Anotaciones de salud</label>
+  <textarea id="anotaciones" class="form-control" rows="3" placeholder="Escribe las observaciones..."></textarea>
+</div>
+
+          
+          <div class="mb-3">
+            <label class="form-label">Foto</label>
+            <input type="file" id="img" class="form-control" accept="image/*">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-success" id="btn-guardar-animal">
+          <i class="fa-solid fa-floppy-disk"></i> Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modalHistorial" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Historial del animal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group" id="historial-body"></ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script  src="assets/js/animal.js"></script>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const animal = JSON.parse(localStorage.getItem("animal_seleccionado"));
+  const data = JSON.parse(localStorage.getItem("registro_ganado")) || { fincas: [] };
+
+  if (!animal) {
+    alert("No se encontró información del animal");
+    window.location.href = "index.html";
+    return;
+  }
+
+  // ✅ Rellenar datos en el modal cuando se abra (para editar o actualizar)
+  function cargarFormularioAnimal() {
+    document.getElementById("id").value = animal.numero_id || "";
+    document.querySelector(`input[name="sexo"][value="${animal.sexo}"]`)?.click();
+    document.getElementById("peso").value = animal.peso || "";
+    document.getElementById("partos").value = animal.partos || 0;
+    document.querySelector(`input[name="prenes"][value="${animal.prenes}"]`)?.click();
+    document.getElementById("tprenes").value = animal.tprenes || "";
+    document.getElementById("edad").value = animal.edad || "";
+    document.querySelector(`input[name="salud"][value="${animal.salud}"]`)?.click();
+
+    if (animal.salud === "Con anotaciones") {
+      document.getElementById("campo-anotaciones").classList.remove("d-none");
+      document.getElementById("anotaciones").value = animal.anotaciones || "";
+    } else {
+      document.getElementById("campo-anotaciones").classList.add("d-none");
+    }
+  }
+
+  // ✅ Guardar cambios desde el modal
+  document.getElementById("btn-guardar-animal").addEventListener("click", () => {
+    const actualizado = {
+      numero_id: document.getElementById("id").value,
+      sexo: document.querySelector("input[name='sexo']:checked")?.value || "",
+      peso: document.getElementById("peso").value,
+      partos: document.getElementById("partos").value,
+      prenes: document.querySelector("input[name='prenes']:checked")?.value || "",
+      tprenes: document.getElementById("tprenes").value,
+      edad: document.getElementById("edad").value,
+      salud: document.querySelector("input[name='salud']:checked")?.value || "",
+      anotaciones: document.getElementById("anotaciones").value
+    };
+
+    // Reemplazar en localStorage
+    data.fincas.forEach(finca => {
+      finca.lotes.forEach(lote => {
+        const idx = lote.animales.findIndex(a => a.numero_id === animal.numero_id);
+        if (idx >= 0) {
+          lote.animales[idx] = actualizado;
+        }
+      });
+    });
+
+    localStorage.setItem("registro_ganado", JSON.stringify(data));
+    localStorage.setItem("animal_seleccionado", JSON.stringify(actualizado));
+
+    alert("Animal actualizado correctamente ✅");
+    location.reload();
+  });
+
+  // 1️⃣ Botón eliminar
+  document.getElementById("btn-eliminar").addEventListener("click", () => {
+    if (!confirm("¿Seguro que deseas eliminar este animal?")) return;
+
+    data.fincas.forEach(finca => {
+      finca.lotes.forEach(lote => {
+        lote.animales = lote.animales.filter(a => a.numero_id !== animal.numero_id);
+      });
+    });
+
+    localStorage.setItem("registro_ganado", JSON.stringify(data));
+    localStorage.removeItem("animal_seleccionado");
+    window.location.href = "index.html";
+  });
+
+  // 2️⃣ Botón historial
+  document.getElementById("btn-historial").addEventListener("click", () => {
+    alert("Aquí mostrarías el historial de actualizaciones del animal");
+  });
+
+  // 3️⃣ Botón cambiar de lote (usando el modalMover ya definido en tu HTML)
+  document.getElementById("btn-cambiar").addEventListener("click", () => {
+    const selectFinca = document.getElementById("selectFinca");
+    selectFinca.innerHTML = "";
+
+    data.fincas.forEach(f => {
+      const opt = document.createElement("option");
+      opt.value = f.nombre;
+      opt.textContent = f.nombre;
+      selectFinca.appendChild(opt);
+    });
+
+    cargarLotes(selectFinca.value);
+
+    selectFinca.addEventListener("change", () => {
+      cargarLotes(selectFinca.value);
+    });
+
+    const modal = new bootstrap.Modal(document.getElementById("modalMover"));
+    modal.show();
+  });
+
+  function cargarLotes(fincaNombre) {
+    const selectLote = document.getElementById("selectLote");
+    selectLote.innerHTML = "";
+    const finca = data.fincas.find(f => f.nombre === fincaNombre);
+    if (finca) {
+      finca.lotes.forEach(l => {
+        const opt = document.createElement("option");
+        opt.value = l.nombre;
+        opt.textContent = l.nombre;
+        selectLote.appendChild(opt);
+      });
+    }
+  }
+
+  document.getElementById("btn-confirmar-mover").addEventListener("click", () => {
+    const fincaDestinoNombre = document.getElementById("selectFinca").value;
+    const loteDestinoNombre = document.getElementById("selectLote").value;
+
+    const fincaDestino = data.fincas.find(f => f.nombre === fincaDestinoNombre);
+    const loteDestino = fincaDestino.lotes.find(l => l.nombre === loteDestinoNombre);
+
+    // Eliminar del lote actual
+    data.fincas.forEach(finca => {
+      finca.lotes.forEach(lote => {
+        const idx = lote.animales.findIndex(a => a.numero_id === animal.numero_id);
+        if (idx >= 0) {
+          lote.animales.splice(idx, 1);
+        }
+      });
+    });
+
+    // Agregar al nuevo lote
+    loteDestino.animales.push(animal);
+
+    localStorage.setItem("registro_ganado", JSON.stringify(data));
+
+    alert(`Animal movido a Finca: ${fincaDestinoNombre}, Lote: ${loteDestinoNombre}`);
+    window.location.href = "index.html";
+  });
+
+  // 4️⃣ Botón editar → abre modalAnimal
+  document.getElementById("btn-editar").addEventListener("click", () => {
+    cargarFormularioAnimal();
+    const modal = new bootstrap.Modal(document.getElementById("modalAnimal"));
+    modal.show();
+  });
+
+  // 5️⃣ Botón actualizar → abre modalAnimal también
+  document.getElementById("btn-actualizar").addEventListener("click", () => {
+    cargarFormularioAnimal();
+    const modal = new bootstrap.Modal(document.getElementById("modalAnimal"));
+    modal.show();
+  });
+});
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js")
+    .then(() => console.log("✅ Service Worker registrado"))
+    .catch(err => console.error("❌ Error registrando SW:", err));
+}
+</script>
+
+
+</body>
+</html>
