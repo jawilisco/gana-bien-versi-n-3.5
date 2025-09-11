@@ -182,33 +182,7 @@ document.getElementById("btn-atras").onclick = () => {
     render();
 };
 
-document.getElementById("btn-agregar").onclick = () => {
-    if (nivel_actual === "fincas") {
-        const nombre = prompt("Nombre de la finca:");
-        if (nombre) {
-            data.fincas.push({ nombre, lotes: [] });
-            guardar();
-            render();
-        }
-    } else if (nivel_actual === "lotes") {
-        const nombre = prompt("Nombre del lote:");
-        if (nombre) {
-            finca_seleccionada.lotes = finca_seleccionada.lotes || [];
-            finca_seleccionada.lotes.push({ nombre, animales: [] });
-            guardar();
-            render();
-        }
-    } else if (nivel_actual === "animales") {
-        const numero_id = prompt("ID del animal:");
-        const raza = prompt("Raza:");
-        if (numero_id && raza) {
-            lote_seleccionado.animales = lote_seleccionado.animales || [];
-            lote_seleccionado.animales.push({ numero_id, raza });
-            guardar();
-            render();
-        }
-    }
-};
+
 const salud = document.querySelector("input[name='salud']:checked")?.value || "";
 const anotaciones = document.getElementById("anotaciones").value.trim();
 
@@ -355,7 +329,7 @@ if ( getItem("volver_a_animales") === "true") {
 
      removeItem("volver_a_animales");
   }
-  
+
   render();
 
   // 🔹 Mostrar campo de anotaciones solo si se elige "Con anotaciones"
