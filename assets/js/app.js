@@ -1,6 +1,7 @@
 
 // /js/app.js
 import { guardarData, cargarData } from "./storage.js";
+import * as storage from "./assets/js/storage.js"
 
 let data = { fincas: [] };
 let nivel_actual = "fincas";
@@ -86,7 +87,7 @@ function render() {
 
         // 👉 Evento para abrir el detalle del animal
         div.addEventListener("click", () => {
-            storage.js.setItem("animal_seleccionado", JSON.stringify(animal));
+            storage.setItem("animal_seleccionado", JSON.stringify(animal));
             window.location.href = "animal.html"; // tu página de detalle
         });
 
@@ -272,9 +273,9 @@ document.getElementById("btn-buscar").onclick = () => {
             div.innerHTML = `<div class="card-body" style="cursor:pointer;">ID: ${animal.numero_id || ""} | Raza: ${animal.raza || ""}</div>`;
             lista.appendChild(div);
             div.addEventListener("click", () => {
-  storage.js.setItem("animal_seleccionado", JSON.stringify(animal));
-  storage.js.setItem("finca_actual", finca_seleccionada.nombre); // 👈 guardamos finca
-  storage.js.setItem("lote_actual", lote_seleccionado.nombre);   // 👈 guardamos lote
+  storage.setItem("animal_seleccionado", JSON.stringify(animal));
+  storage.setItem("finca_actual", finca_seleccionada.nombre); // 👈 guardamos finca
+  storage.setItem("lote_actual", lote_seleccionado.nombre);   // 👈 guardamos lote
   window.location.href = "animal.html";
 });
 
@@ -304,14 +305,16 @@ document.getElementById("btn-agregar").onclick = () => {
         modal.show();
     }
 };
-
+function guardar() {
+    storage.setItem("registro_ganado", JSON.stringify(data));
+}
 
 
 window.onload = () => {
   // 🔹 Si vienes desde animal.html con "volver"
-  if (storage.js.getItem("volver_a_animales") === "true") {
-    const fincaNombre = storage.js.getItem("finca_actual");
-    const loteNombre = storage.js.getItem("lote_actual");
+if (storage.getItem("volver_a_animales") === "true") {
+  const fincaNombre = storage.getItem("finca_actual");
+  const loteNombre = storage.getItem("lote_actual");
 
     finca_seleccionada = data.fincas.find(f => f.nombre === fincaNombre) || null;
     if (finca_seleccionada) {
@@ -321,7 +324,7 @@ window.onload = () => {
       }
     }
 
-    storage.js.removeItem("volver_a_animales");
+    storage.removeItem("volver_a_animales");
   }
 
   render();
