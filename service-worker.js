@@ -1,23 +1,24 @@
-const CACHE_NAME = "ganado-cache-v1";
+const CACHE_NAME = "gana-bien-v1";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
   "/animal.html",
-  "/app.js",
-  "/animal.js",
-  "/style.css",
-  "/card.css",
+  "/assets/js/app.js",
+  "/assets/js/animal.js",
+  "/assets/js/storage.js",
+  "/assets/css/card.css",
+  "/assets/css/styles.css",
   "/manifest.json"
 ];
 
-// Instalar y guardar en caché
-self.addEventListener("install", event => {
-  event.waitUntil(
+self.addEventListener("install", e => {
+  e.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       return cache.addAll(FILES_TO_CACHE);
     })
   );
 });
+
 
 // Activar y limpiar cachés viejos
 self.addEventListener("activate", event => {

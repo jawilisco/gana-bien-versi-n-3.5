@@ -15,7 +15,7 @@ window.onload = async () => {
 
 // Guardar cambios
 function guardar() {
-  guardarData(data);
+    guardarData(data); // ✅ ahora en IndexedDB 
 }
 
 
@@ -304,9 +304,7 @@ document.getElementById("btn-agregar").onclick = () => {
         modal.show();
     }
 };
-function guardar() {
-    storage.js.setItem("registro_ganado", JSON.stringify(data));
-}
+
 
 
 window.onload = () => {
