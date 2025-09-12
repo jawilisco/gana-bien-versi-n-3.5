@@ -1,7 +1,7 @@
 
 // /js/app.js
 
-import { guardarData, cargarData, setItem, getItem, removeItem } from "assets/js/storage.js";
+import { guardarData, cargarData, setItem, getItem, removeItem } from "storage.js";
 
 
 let data = { fincas: [] };

@@ -1,5 +1,5 @@
 // /js/animal.js
-import { guardarData, cargarData } from "assets/js/storage.js";
+import { guardarData, cargarData } from "storage.js";
 
 let data = { fincas: [] };
 let animal = JSON.parse(localStorage.getItem("animal_seleccionado")) || null;
