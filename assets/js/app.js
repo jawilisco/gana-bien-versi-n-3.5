@@ -66,13 +66,42 @@ function render() {
         data.fincas.forEach((finca, idx) => {
             const div = document.createElement("div");
             div.className = "mb-2"; // Solo margen inferior, sin fondo ni borde
-            div.innerHTML = `
-                <div class="d-flex align-items-center justify-content-between" style="background:none; border:none; box-shadow:none;">
-                    <span style="flex:1;cursor:pointer;" onclick="abrirFinca(${idx})">${finca.nombre}</span>
-                    <button class="btn btn-sm btn-warning me-1" onclick="renombrarFinca(${idx})" title="Renombrar"><i class="fa fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminarFinca(${idx})" title="Eliminar"><i class="fa fa-trash"></i></button>
-                </div>
-            `;
+            const container = document.createElement("div");
+container.className = "d-flex align-items-center justify-content-between";
+container.style.background = "none";
+container.style.border = "none";
+container.style.boxShadow = "none";
+
+const span = document.createElement("span");
+span.style.flex = "1";
+span.style.cursor = "pointer";
+span.textContent = finca.nombre;
+span.addEventListener("click", () => abrirFinca(idx));
+
+const btnRename = document.createElement("button");
+btnRename.className = "btn btn-sm btn-warning me-1";
+btnRename.title = "Renombrar";
+btnRename.innerHTML = '<i class="fa fa-edit"></i>';
+btnRename.addEventListener("click", (e) => {
+  e.stopPropagation();
+  renombrarFinca(idx);
+});
+
+const btnDelete = document.createElement("button");
+btnDelete.className = "btn btn-sm btn-danger";
+btnDelete.title = "Eliminar";
+btnDelete.innerHTML = '<i class="fa fa-trash"></i>';
+btnDelete.addEventListener("click", (e) => {
+  e.stopPropagation();
+  eliminarFinca(idx);
+});
+
+container.appendChild(span);
+container.appendChild(btnRename);
+container.appendChild(btnDelete);
+div.appendChild(container);
+lista.appendChild(div);
+
             lista.appendChild(div);
         });
     } else if (nivel_actual === "lotes") {
@@ -82,14 +111,42 @@ function render() {
         (finca_seleccionada.lotes || []).forEach((lote, idx) => {
             const div = document.createElement("div");
             div.className = "mb-2"; // Solo margen inferior, sin fondo ni borde
-            div.innerHTML = `
+            const container = document.createElement("div");
+container.className = "d-flex align-items-center justify-content-between";
+container.style.background = "none";
+container.style.border = "none";
+container.style.boxShadow = "none";
 
-                <div class="d-flex align-items-center justify-content-between" style="background:none; border:none; box-shadow:none;">
-                    <span style="flex:1;cursor:pointer;" onclick="abrirLote(${idx})">${lote.nombre}</span>
-                    <button class="btn btn-sm btn-warning me-1" onclick="renombrarLote(${idx})" title="Renombrar"><i class="fa fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminarLote(${idx})" title="Eliminar"><i class="fa fa-trash"></i></button>
-                </div>
-            `;
+const span = document.createElement("span");
+span.style.flex = "1";
+span.style.cursor = "pointer";
+span.textContent = lote.nombre;
+span.addEventListener("click", () => abrirLote(idx));
+
+const btnRename = document.createElement("button");
+btnRename.className = "btn btn-sm btn-warning me-1";
+btnRename.title = "Renombrar";
+btnRename.innerHTML = '<i class="fa fa-edit"></i>';
+btnRename.addEventListener("click", (e) => {
+  e.stopPropagation();
+  renombrarLote(idx);
+});
+
+const btnDelete = document.createElement("button");
+btnDelete.className = "btn btn-sm btn-danger";
+btnDelete.title = "Eliminar";
+btnDelete.innerHTML = '<i class="fa fa-trash"></i>';
+btnDelete.addEventListener("click", (e) => {
+  e.stopPropagation();
+  eliminarLote(idx);
+});
+
+container.appendChild(span);
+container.appendChild(btnRename);
+container.appendChild(btnDelete);
+div.appendChild(container);
+lista.appendChild(div);
+
             lista.appendChild(div);
         });
 } else if (nivel_actual === "animales") {
