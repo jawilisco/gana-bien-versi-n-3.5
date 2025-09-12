@@ -4,6 +4,7 @@
 import { guardarData, cargarData, setItem, getItem, removeItem } from "./storage.js";
 
 
+
 let data = { fincas: [] };
 let nivel_actual = "fincas";
 let finca_seleccionada = null;
